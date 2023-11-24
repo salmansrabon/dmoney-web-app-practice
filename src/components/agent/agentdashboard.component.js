@@ -12,7 +12,12 @@ const AgentDashboard = () => {
   const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
     if (initialLoad) {
-      navigate('/agent/check-statement');
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login'); // Redirect to login if no token is found
+      } else {
+        navigate('/agent/check-statement');
+      }
       setInitialLoad(false);
     }
   }, [navigate, initialLoad]);

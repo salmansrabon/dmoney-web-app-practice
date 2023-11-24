@@ -19,6 +19,7 @@ function App() {
     <Router>
       <div className="container">
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path='/admin/*' element={<AdminDashboard />}>
