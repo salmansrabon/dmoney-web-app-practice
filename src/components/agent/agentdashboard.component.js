@@ -13,10 +13,15 @@ const AgentDashboard = () => {
   useEffect(() => {
     if (initialLoad) {
       const token = localStorage.getItem('token');
+      const role = localStorage.getItem('role');
       if (!token) {
         navigate('/login'); // Redirect to login if no token is found
-      } else {
+      }
+      else if(token && role== 'Agent'){
         navigate('/agent/check-statement');
+      }
+      else{
+        navigate('/unauthorized');
       }
       setInitialLoad(false);
     }

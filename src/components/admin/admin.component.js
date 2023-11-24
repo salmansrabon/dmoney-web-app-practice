@@ -12,10 +12,14 @@ const AdminDashboard = () => {
   useEffect(() => {
     if (initialLoad) {
       const token = localStorage.getItem('token');
+      const role = localStorage.getItem('role');
       if (!token) {
         navigate('/login'); // Redirect to login if no token is found
-      } else {
+      } else if(token && role== 'Admin'){
         navigate('/admin/check-statement');
+      }
+      else{
+        navigate('/unauthorized');
       }
       setInitialLoad(false);
     }

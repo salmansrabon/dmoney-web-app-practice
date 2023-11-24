@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AdminDashboard from './components/admin/admin.component';
 import UserList from './components/admin/userlist.component';
 import CreateUser from './components/admin/createuser.component';
+import UnAuthenticated from './components/403';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path="check-statement" element={<CheckStatement />} />
             <Route path="check-balance" element={<CheckBalance />} />
           </Route>
+          <Route path="/unauthorized" element={<UnAuthenticated/>} />
         </Routes>
       </div>
     </Router>
