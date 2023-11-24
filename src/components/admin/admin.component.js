@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, useRoutes, Outlet } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import { Link, useRoutes, Outlet, useNavigate } from 'react-router-dom';
 import CheckStatement from '../statement.component';
 import CreateUser from './createuser.component';
 import UserList from './userlist.component';
@@ -7,6 +7,15 @@ import UserList from './userlist.component';
 
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const [initialLoad, setInitialLoad] = useState(true);
+  useEffect(() => {
+    if (initialLoad) {
+      navigate('/admin/check-statement');
+      setInitialLoad(false);
+    }
+  }, [navigate, initialLoad]);
+
   const handleLogout = () => {
     // Perform logout action - clear token and set isLoggedIn to false
     localStorage.removeItem('token');

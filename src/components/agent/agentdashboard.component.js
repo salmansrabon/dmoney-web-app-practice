@@ -1,11 +1,21 @@
-import React from 'react';
-import { Link, useRoutes, Outlet } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import { Link, useRoutes, Outlet, useNavigate } from 'react-router-dom';
 import Deposit from './deposit.component';
 import Payment from './payment.component';
 import CheckStatement from '../statement.component';
 import CheckBalance from '../balance.component';
 
+
+
 const AgentDashboard = () => {
+  const navigate = useNavigate();
+  const [initialLoad, setInitialLoad] = useState(true);
+  useEffect(() => {
+    if (initialLoad) {
+      navigate('/agent/check-statement');
+      setInitialLoad(false);
+    }
+  }, [navigate, initialLoad]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');

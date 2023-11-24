@@ -27,6 +27,10 @@
 .App-link {
   color: #61dafb;
 }
+.wrap-cell {
+  word-wrap: break-word;
+  white-space: normal !important;
+}
 
 @keyframes App-logo-spin {
   from {

@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate  } from 'react-router-dom';
 import AdminDashboard from '../admin/admin.component';
 import AgentDashboard from '../agent/agentdashboard.component';
 import LoginPage from './login.component';
 
 export default function Dashboard() {
+    const navigate = useNavigate();
     const location = useLocation();
     const { role } = location.state || { role: null };
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
 
     useEffect(() => {
         // Check if the token exists in local storage
@@ -16,6 +18,9 @@ export default function Dashboard() {
         if (token) {
             // If token exists, set isLoggedIn to true
             setIsLoggedIn(true);
+        }else {
+            // If not logged in, redirect to the login page
+            navigate('/login');
         }
     }, []);
 
@@ -24,6 +29,7 @@ export default function Dashboard() {
         localStorage.removeItem('token');
         setIsLoggedIn(false);
         // Additional actions for logout if needed
+        navigate('/login');
     };
 
     const renderDashboard = () => {
