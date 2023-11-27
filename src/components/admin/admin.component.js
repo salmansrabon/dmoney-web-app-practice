@@ -4,6 +4,7 @@ import CheckStatement from '../statement.component';
 import CreateUser from './createuser.component';
 import UserList from './userlist.component';
 import { checkUserAuthentication } from '../login/Authservice';
+import EditUser from './editUser.component';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -61,6 +62,7 @@ const AdminDashboard = () => {
         { path: 'list-user', element: <UserList /> },
         { path: 'create-user', element: <CreateUser /> },
         { path: 'check-statement', element: <CheckStatement /> },
+        { path: 'edit-user/:userId', element: <EditUser /> },
       ],
     },
   ]);

@@ -1,7 +1,16 @@
-import React from 'react'
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function EditUser() {
+const EditUser = () => {
+  const { userId } = useParams();
+
   return (
-    <div>Edit User</div>
-  )
-}
+    <div>
+      <h2>Edit User</h2>
+      <p>UserID from URL: {userId}</p>
+      {/* Other content */}
+    </div>
+  );
+};
+
+export default EditUser;

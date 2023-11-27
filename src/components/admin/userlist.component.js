@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 const UserList = () => {
@@ -9,6 +9,7 @@ const UserList = () => {
   const [itemsPerPage, setItemsPerPage] = useState(20); // Default items per page
   const [totalPages, setTotalPages] = useState(0);
   const [editUserId, setEditUserId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserList = async () => {
@@ -35,11 +36,10 @@ const UserList = () => {
     }
   }, [currentPage, itemsPerPage, token]);
   const handleEditUser = (userId) => {
-    setEditUserId(userId); // Set the ID of the user being edited for redirection
+    setEditUserId(userId);
+    navigate(`/admin/edit-user/${userId}`);
   };
-  if (editUserId) {
-    return <Link to={`/admin/edit-user/${editUserId}`} />;
-  }
+
 
 
   const handleNextPage = () => {
@@ -102,8 +102,12 @@ const UserList = () => {
                 <td>{user.phone_number}</td>
                 <td>{user.role}</td>
                 <td>
-                  <button onClick={() => handleEditUser(user.id)} className="btn btn-primary me-2">
-                    Edit</button>
+                  <button
+                    onClick={() => handleEditUser(user.id)}
+                    className="btn btn-primary me-2"
+                  >
+                    Edit
+                  </button>
                   <button className="btn btn-danger">Delete</button>
                 </td>
               </tr>

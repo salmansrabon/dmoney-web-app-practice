@@ -28,7 +28,7 @@ function App() {
             <Route path="list-user" element={<UserList />} />
             <Route path="create-user" element={<CreateUser />} />
             <Route path="check-statement" element={<CheckStatement />} />
-            <Route path="edit-user/:id" element={<EditUser />} />
+            <Route path="edit-user/:userId" element={<EditUser />} />
           </Route>
           <Route path="/agent/*" element={<AgentDashboard />}>
             <Route path="deposit" element={<Deposit />} />
