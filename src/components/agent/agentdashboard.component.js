@@ -4,28 +4,20 @@ import Deposit from './deposit.component';
 import Payment from './payment.component';
 import CheckStatement from '../statement.component';
 import CheckBalance from '../balance.component';
+import { checkUserAuthentication } from '../login/Authservice';
 
 
 
 const AgentDashboard = () => {
   const navigate = useNavigate();
   const [initialLoad, setInitialLoad] = useState(true);
+  const userRole = 'Agent';
   useEffect(() => {
-    if (initialLoad) {
-      const token = localStorage.getItem('token');
-      const role = localStorage.getItem('role');
-      if (!token) {
-        navigate('/login'); // Redirect to login if no token is found
-      }
-      else if(token && role== 'Agent'){
-        navigate('/agent/check-statement');
-      }
-      else{
-        navigate('/unauthorized');
-      }
+    const isAuthenticated = checkUserAuthentication(navigate, initialLoad, userRole);
+    if (!isAuthenticated) {
       setInitialLoad(false);
     }
-  }, [navigate, initialLoad]);
+  }, [navigate, initialLoad, userRole]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');

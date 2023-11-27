@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate  } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 import AdminDashboard from '../admin/admin.component';
 import AgentDashboard from '../agent/agentdashboard.component';
 import LoginPage from './login.component';
 
 export default function Dashboard() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const { role } = location.state || { role: null };
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     
 
@@ -24,21 +22,13 @@ export default function Dashboard() {
         }
     }, []);
 
-    const handleLogout = () => {
-        // Perform logout action - clear token and set isLoggedIn to false
-        localStorage.removeItem('token');
-        setIsLoggedIn(false);
-        // Additional actions for logout if needed
-        navigate('/login');
-    };
-
     const renderDashboard = () => {
         if (isLoggedIn) {
             switch (localStorage.getItem('role')) {
                 case 'Admin':
-                    return <AdminDashboard handleLogout={handleLogout} />;
+                    return <AdminDashboard />;
                 case 'Agent':
-                    return <AgentDashboard handleLogout={handleLogout} />;
+                    return <AgentDashboard />;
                 default:
                     return <div>Loading...</div>;
             }

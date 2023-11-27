@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 const UserList = () => {
@@ -7,6 +8,7 @@ const UserList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20); // Default items per page
   const [totalPages, setTotalPages] = useState(0);
+  const [editUserId, setEditUserId] = useState(null);
 
   useEffect(() => {
     const fetchUserList = async () => {
@@ -32,6 +34,13 @@ const UserList = () => {
       fetchUserList();
     }
   }, [currentPage, itemsPerPage, token]);
+  const handleEditUser = (userId) => {
+    setEditUserId(userId); // Set the ID of the user being edited for redirection
+  };
+  if (editUserId) {
+    return <Link to={`/admin/edit-user/${editUserId}`} />;
+  }
+
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -58,9 +67,14 @@ const UserList = () => {
   return (
     <div className="container mt-4">
       <h2>User List</h2>
-      <div className="mb-3">
+      <div className="mb-3 d-flex align-items-center">
         <label htmlFor="itemsPerPage" className="me-2">Items per page:</label>
-        <select id="itemsPerPage" value={itemsPerPage} onChange={handleItemsPerPageChange} className="form-select form-select-sm w-auto">
+        <select
+          id="itemsPerPage"
+          value={itemsPerPage}
+          onChange={handleItemsPerPageChange}
+          className="form-select form-select-sm w-auto"
+        >
           <option value="20">20</option>
           <option value="50">50</option>
           <option value="100">100</option>
@@ -69,10 +83,10 @@ const UserList = () => {
       </div>
       <div className="table-responsive">
         <table className="table table-striped table-bordered">
-          <thead>
+          <thead className="table-dark">
             <tr>
               <th>ID</th>
-              <th className="name-column">Name</th> {/* Apply custom class for Name column */}
+              <th className="name-column">Name</th>
               <th>Email Address</th>
               <th>Phone Number</th>
               <th>Role</th>
@@ -83,12 +97,13 @@ const UserList = () => {
             {displayedUsers.map(user => (
               <tr key={user.id}>
                 <td>{user.id}</td>
-                <td className="wrap-cell" style={{ maxWidth: '200px' }}>{user.name}</td> {/* Set max-width and enable text wrapping */}
-                <td className="wrap-cell">{user.email}</td> {/* Enable text wrapping */}
+                <td className="wrap-cell" style={{ maxWidth: '200px' }}>{user.name}</td>
+                <td className="wrap-cell">{user.email}</td>
                 <td>{user.phone_number}</td>
                 <td>{user.role}</td>
                 <td>
-                  <button onClick={() => console.log(`Edit user with ID ${user.id}`)} className="btn btn-primary me-2">Edit</button>
+                  <button onClick={() => handleEditUser(user.id)} className="btn btn-primary me-2">
+                    Edit</button>
                   <button className="btn btn-danger">Delete</button>
                 </td>
               </tr>
@@ -96,7 +111,7 @@ const UserList = () => {
           </tbody>
         </table>
       </div>
-      <div>
+      <div className="d-flex justify-content-between align-items-center mt-3">
         <button onClick={handlePrevPage} disabled={currentPage === 1} className="btn btn-secondary me-2">Previous</button>
         <span>{`Page ${currentPage} of ${totalPages}`}</span>
         <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn btn-secondary ms-2">Next</button>
