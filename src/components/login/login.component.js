@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
-    const [email, setEmail] = useState('')
+    const [identifier, setIdentifier] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const navigate = useNavigate()
@@ -13,7 +13,7 @@ const Login = () => {
 
         try {
             const response = await axios.post('https://dmoney.roadtocareer.net/user/login', {
-                email,
+                emailOrPhoneNumber: identifier,
                 password,
             });
 
@@ -22,6 +22,7 @@ const Login = () => {
                 localStorage.setItem('token', token);
                 const userRole = response.data.role;
                 localStorage.setItem('role', userRole);
+                localStorage.setItem('mobileNumber', identifier);
                 navigate('/dashboard', { state: { role: userRole } });
                 //refresh the page
                 window.location.reload();
@@ -50,10 +51,10 @@ const Login = () => {
                                 <div className="form-group">
                                     <label>Email:</label>
                                     <input
-                                        type="email"
+                                        type="text"
                                         className="form-control"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        value={identifier}
+                                        onChange={(e) => setIdentifier(e.target.value)}
                                         required
                                     />
                                 </div>
